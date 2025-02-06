@@ -11,7 +11,7 @@ app.use(express.json());
 const DB_NAME = 'ChatApp'
 const DB_PASSWORD = 'S3creTR0ot'
 const DB_CONNECTION = `mongodb+srv://admin:${DB_PASSWORD}@comp3123.nskbe.mongodb.net/${DB_NAME}?retryWrites=true&w=majority&appName=COMP3123`
-mongoose.connect(DB_CONNECTION, {
+const db = mongoose.connect(DB_CONNECTION, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(success => {
@@ -45,8 +45,9 @@ io.on('connection', (socket) => {
         data.clientId = socket.id
         console.log(JSON.stringify(data))
         io.emit('chat_message', data)
-        PrivateMessage.create({from_user: data.clientId, to_user: data.clientId, message: data.message}, (err, success) => {
+        PrivateMessage.create({from_user: data.clientId}, {to_user: data.clientId}, {message: data.message}, (err, success) => {
             if (!err) {
+                success.save()
                 console.log("Message saved to database.")
             } else {
                 console.log(err)

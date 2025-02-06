@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <script>
+        const ioClient = io()
+
+        ioClient.on('connect', () => {
+            document.getElementById('socketID').innerHTML = ioClient.id;
+        })
+
+        
+
+        ioClient.on('group_message', (data) => {
+            const container = document.getElementById('container');
+           
+            
+            const senderId = data.senderId
+            const message = data.message
+
+            const msg =  `<p><b>${senderId}:</b>${message}</p>`;
+            
+        })
+
+       /* User.collection('Users').save((err, userCreated) => {
+        if(!err) {
+            res.send(userCreated);
+        } else{
+            res.send("Uh oh! Signup not working. Please try again later.", err)
+        }
+        })*/
+
+    </script>
+    <form id="signup">
+        <input type="text" name="Username" id="username">
+        <input type="text" name="First Name" id="firstname">
+        <input type="text" name="Last Name" id="lastname">
+        <input type="password" name="Password" id="password">
+        <button type="submit" id="signup">Sign Up</button>
+    </form>
+</body>
+</html>

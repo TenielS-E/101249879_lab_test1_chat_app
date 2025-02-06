@@ -7,9 +7,6 @@ const PrivateMessgeSchema  = new mongoose.Schema({
     to_user: {
         type: String
     },
-    room: {
-        type: String
-    },
     message: {
         type: String
     },
